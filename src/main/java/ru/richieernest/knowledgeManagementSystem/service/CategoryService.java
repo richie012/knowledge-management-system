@@ -17,4 +17,7 @@ public class CategoryService {
     public Iterable<Category> getAllCategories(){
         return categoryRepository.findAll();
     }
+    public Category saveCategory(){
+        return categoryRepository.save(new Category());
+    }
 }

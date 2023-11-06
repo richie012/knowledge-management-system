@@ -2,6 +2,7 @@ package ru.richieernest.knowledgeManagementSystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.richieernest.knowledgeManagementSystem.entity.Category;
 import ru.richieernest.knowledgeManagementSystem.service.CategoryService;
@@ -15,5 +16,9 @@ public class CategoryController {
     @GetMapping("/")
     public Iterable<Category> getAll(){
         return categoryService.getAllCategories();
+    }
+    @PostMapping("/")
+    public Category createCategory(){
+        return categoryService.saveCategory();
     }
 }

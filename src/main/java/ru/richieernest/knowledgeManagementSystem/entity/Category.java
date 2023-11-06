@@ -5,10 +5,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 @Data
 @Entity
+@NoArgsConstructor
 public class Category {
     @Id
     Long categoryId;
