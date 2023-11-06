@@ -7,10 +7,14 @@ spring:
     password: DrMKKpMpAMRT9qfvaX2GVDZ76Svi3HPoynqnbME3WAxZdoSD9XhZCJZCd8gpoCnK
   jpa:
     database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     show-sql: 'true'
+    properties:
+      hibernate:
+        transaction:
+          jta:
+            platform: org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform
 
 server:
   port: '55555'
