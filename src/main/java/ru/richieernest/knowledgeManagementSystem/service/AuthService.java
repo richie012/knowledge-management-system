@@ -2,6 +2,7 @@ package ru.richieernest.knowledgeManagementSystem.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService, UserAddtion {
 
-    UserRepo userRepo;
-    PasswordEncoder passwordEncoder;
+    final UserRepo userRepo;
+    final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -37,7 +38,8 @@ public class AuthService implements UserDetailsService, UserAddtion {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var userInfo = userRepo.findByUsername(username);
+        var userInfo = userRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " not found"));
         return new UserInfoDetails(userInfo);
     }
 

@@ -17,7 +17,7 @@ public class CategoryController {
     public Iterable<Category> getAll(){
         return categoryService.getAllCategories();
     }
-    @PostMapping("/")
+    @PostMapping("/1")
     public Category createCategory(){
         return categoryService.saveCategory();
     }

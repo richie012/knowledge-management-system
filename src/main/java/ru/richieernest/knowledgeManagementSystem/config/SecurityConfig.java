@@ -32,10 +32,17 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeRequests()
-                .requestMatchers("/*")
-                .permitAll()
-                .anyRequest().authenticated();
+                .authorizeRequests(authorize -> authorize
+                        .requestMatchers("/*")
+                        .permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .permitAll());
 
         return http.build();
     }

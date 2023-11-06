@@ -16,11 +16,7 @@ public class UserInfoDetails implements UserDetails {
     @Serial
     private static final long serialVersionUID = -4612525987873300081L;
 
-    Employee employee;
-
-    public UserInfoDetails(Optional<Employee> userInfo) {
-
-    }
+    private final Employee employee;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
