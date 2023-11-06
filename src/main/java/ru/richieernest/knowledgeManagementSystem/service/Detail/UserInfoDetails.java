@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.richieernest.knowledgeManagementSystem.dto.User;
 import ru.richieernest.knowledgeManagementSystem.entity.Employee;
 
 import java.io.Serial;
@@ -19,7 +18,7 @@ public class UserInfoDetails implements UserDetails {
 
     Employee employee;
 
-    public UserInfoDetails(Optional<User> userInfo) {
+    public UserInfoDetails(Optional<Employee> userInfo) {
 
     }
 

@@ -32,7 +32,7 @@ public class AuthService implements UserDetailsService, UserAddtion {
         employee.setUsername(user.getUsername());
         employee.setPassword(passwordEncoder.encode(user.getPassword()));
         employee.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
+        userRepo.save(employee);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class AuthService implements UserDetailsService, UserAddtion {
         return new UserInfoDetails(userInfo);
     }
 
-    public Optional<User> getUserByPrincipal(Principal principal) {
+    public Optional<Employee> getUserByPrincipal(Principal principal) {
         return userRepo.findByUsername(principal.getName());
     }
 }
