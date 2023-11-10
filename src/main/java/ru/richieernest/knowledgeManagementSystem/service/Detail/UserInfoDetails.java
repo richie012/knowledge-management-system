@@ -1,9 +1,12 @@
 package ru.richieernest.knowledgeManagementSystem.service.Detail;
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.richieernest.knowledgeManagementSystem.entity.Employee;
 
 import java.io.Serial;

@@ -1,8 +1,7 @@
 package ru.richieernest.knowledgeManagementSystem.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
@@ -10,11 +9,13 @@ import java.util.Set;
 @Table(name = "employee")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    Long id;
 
     @Column(unique=true)
     private String username;
@@ -23,7 +24,7 @@ public class Employee {
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"))
+            joinColumns = @JoinColumn(name = "user_username"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 }

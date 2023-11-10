@@ -1,6 +1,7 @@
 package ru.richieernest.knowledgeManagementSystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,12 +12,14 @@ import ru.richieernest.knowledgeManagementSystem.service.AuthService;
 
 import java.security.Principal;
 
+
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
     private final UserDetailsService userDetailsService;
+
     @PostMapping("/registration")
     public String registration(@RequestBody User user){
         authService.createUser(user);
@@ -24,8 +27,10 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public void addUser(Principal principal){
-        System.out.println(principal.getName());
+    public void login(Principal principal){
         userDetailsService.loadUserByUsername(principal.getName());
+    }
+    @PostMapping("/logout")
+    public void logout(){
     }
 }

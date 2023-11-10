@@ -13,10 +13,11 @@ import ru.richieernest.knowledgeManagementSystem.service.CategoryService;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @GetMapping("/")
+    @GetMapping("/2")
     public Iterable<Category> getAll(){
         return categoryService.getAllCategories();
     }
+
     @PostMapping("/1")
     public Category createCategory(){
         return categoryService.saveCategory();
