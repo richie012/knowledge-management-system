@@ -28,12 +28,12 @@ public class AdminService {
 
     @Transactional
     public void createAdmin(User user) {
-//        Employee employee = Employee.builder()
-//                .username(user.getUsername())
-//                .password(passwordEncoder.encode(user.getPassword()))
-//                .roles(Collections.singleton(Role.ADMIN))
-//                .build();
-//
-//        employeeRepo.save(employee);
+        Employee employee = Employee.builder()
+                .username(user.getUsername())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .roles(Collections.singleton(Role.ADMIN))
+                .build();
+
+        employeeRepo.save(employee);
     }
 }

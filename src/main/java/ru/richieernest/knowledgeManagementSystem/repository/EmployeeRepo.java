@@ -1,6 +1,7 @@
 package ru.richieernest.knowledgeManagementSystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.richieernest.knowledgeManagementSystem.entity.Employee;
@@ -17,4 +18,7 @@ public interface EmployeeRepo extends JpaRepository<Employee, Long> {
     @Query(value = "SELECT username FROM employee", nativeQuery = true)
     List<String> getEmployees();
 
+    @Modifying
+    @Query(value = "UPDATE employee SET password = ?1 WHERE username = ?2", nativeQuery = true)
+    void updatePass(String pass, String name);
 }
