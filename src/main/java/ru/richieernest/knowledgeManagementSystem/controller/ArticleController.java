@@ -4,11 +4,10 @@ package ru.richieernest.knowledgeManagementSystem.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.richieernest.knowledgeManagementSystem.dto.ArticleDto;
 import ru.richieernest.knowledgeManagementSystem.dto.ArticleIdAndTitle;
+import ru.richieernest.knowledgeManagementSystem.entity.Article;
 import ru.richieernest.knowledgeManagementSystem.service.ArticleService;
 
 import java.util.List;
@@ -28,4 +27,31 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.getById(id), HttpStatus.OK);
     }
 
+    @PostMapping("/edit/add")
+    public ResponseEntity<Article> addArticle(@RequestBody ArticleDto articleDto){
+
+        Article article = Article.builder()
+                .title(articleDto.getTitle())
+                .author(articleDto.getAuthor())
+                .createdAt(articleDto.getCreatedAt())
+                .content(articleDto.getContent())
+                .build();
+        return new ResponseEntity<>(articleService.addArticle(article), HttpStatus.OK);
+    }
+    @PutMapping("/edit/update")
+    public ResponseEntity<Article> updateArticle(@RequestBody ArticleDto articleDto){
+        Article article = Article.builder()
+                .id(articleDto.getId())
+                .title(articleDto.getTitle())
+                .author(articleDto.getAuthor())
+                .createdAt(articleDto.getCreatedAt())
+                .content(articleDto.getContent())
+                .build();
+        return new ResponseEntity<>(articleService.updateArticle(article), HttpStatus.OK);
+    }
+    @DeleteMapping("/edit/delete{id}")
+    public ResponseEntity<Void> deleteArticleById(@PathVariable Long id){
+        articleService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }

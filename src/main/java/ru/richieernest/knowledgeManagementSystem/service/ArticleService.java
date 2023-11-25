@@ -22,20 +22,10 @@ public class ArticleService {
         return articleRepo.findAll();
     }
 
-    public Iterable<Article> getAllArticles(){
+    public List<Article> getAllArticles(){
         return loadAll();
     }
 
-    //method for getting an article without a list of child articles
-    public Article getArticleByIdWithoutChildList(Long id){
-        Optional<Article> optionalArticle= articleRepo.findById(id);
-        if (optionalArticle.isPresent()) {
-            Article article = optionalArticle.get();
-            return article;
-        } else {
-            return new Article();
-        }
-    }
     //method for getting an article with a list of child articles
     public ArticleDto getById(Long id){
         Optional<Article> optionalArticle = articleRepo.findById(id);
@@ -60,5 +50,18 @@ public class ArticleService {
                 })
                 .collect(Collectors.toList());
     }
+    public Article addArticle(Article article){
+        return articleRepo.save(article);
+    }
 
+    public List<Article> addAllArticle(List<Article> articles){
+        return articleRepo.saveAll(articles);
+    }
+
+    public Article updateArticle(Article article){
+        return addArticle(article);
+    }
+    public void deleteById(Long id){
+        articleRepo.deleteById(id);
+    }
 }
