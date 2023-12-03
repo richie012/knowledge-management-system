@@ -16,17 +16,17 @@ import java.util.List;
 public class ArticleController {
     private final ArticleService articleService;
 
-    @GetMapping("/root")
+    @GetMapping("/article")
     public ResponseEntity<List<ArticleIdAndTitle>> loadAllRootArticles(){
         List<ArticleIdAndTitle> articles = articleService.getAllRootArticlesWithOnlyIdAndTitle();
         return new ResponseEntity<>(articles, HttpStatus.OK);
     }
 
-    @GetMapping("/root/{id}")
+    @GetMapping("/article/{id}")
     public ResponseEntity<ArticleDto> loadArticleById(@PathVariable Long id){
         return new ResponseEntity<>(articleService.getById(id), HttpStatus.OK);
     }
-
+    //TODO контроллер для добавления массива статей
     @PostMapping("/edit/add")
     public ResponseEntity<Article> addArticle(@RequestBody ArticleDto articleDto){
 
@@ -35,6 +35,7 @@ public class ArticleController {
                 .author(articleDto.getAuthor())
                 .createdAt(articleDto.getCreatedAt())
                 .content(articleDto.getContent())
+                .articleParentId(articleDto.getArticleParentId())
                 .build();
         return new ResponseEntity<>(articleService.addArticle(article), HttpStatus.OK);
     }
@@ -49,7 +50,7 @@ public class ArticleController {
                 .build();
         return new ResponseEntity<>(articleService.updateArticle(article), HttpStatus.OK);
     }
-    @DeleteMapping("/edit/delete{id}")
+    @DeleteMapping("/edit/delete/{id}")
     public ResponseEntity<Void> deleteArticleById(@PathVariable Long id){
         articleService.deleteById(id);
         return ResponseEntity.ok().build();

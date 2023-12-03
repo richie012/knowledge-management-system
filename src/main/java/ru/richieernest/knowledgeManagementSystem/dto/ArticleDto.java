@@ -1,6 +1,9 @@
 package ru.richieernest.knowledgeManagementSystem.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.richieernest.knowledgeManagementSystem.entity.Article;
 
@@ -8,6 +11,10 @@ import java.util.List;
 
 @Data
 @Component
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class ArticleDto {
     private Long id;
     private String title;
@@ -16,5 +23,5 @@ public class ArticleDto {
     private String content;
     private Long articleParentId;
 
-    private List<Article> childArticles;
+    private List<ArticleIdAndTitle> childArticles;
 }

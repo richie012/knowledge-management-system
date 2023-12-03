@@ -12,8 +12,17 @@ public class ArticleMapper {
 
     private final ArticleRepo articleRepo;
     public ArticleDto addingChildArticlesToArticle(Article article){
-        ArticleDto articleDto = new ArticleDto();
-        articleDto.setChildArticles(articleRepo.findAllByArticleParentId(article.getArticleParentId()));
+        System.out.println(article.toString());
+        ArticleDto articleDto = ArticleDto.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .author(article.getAuthor())
+                .createdAt(article.getCreatedAt())
+                .content(article.getContent())
+                .articleParentId(article.getArticleParentId())
+                .childArticles(articleRepo.findArticleIdAndTitleByArticleParentId(article.getId()))
+                .build();
+
         return articleDto;
     }
 }

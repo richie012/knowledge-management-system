@@ -32,6 +32,7 @@ public class ArticleService {
         if (optionalArticle.isPresent()) {
             Article article = optionalArticle.get();
             ArticleDto articleDto = articleMapper.addingChildArticlesToArticle(article);
+
             return articleDto;
         } else {
             return new ArticleDto();
