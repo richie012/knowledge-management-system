@@ -6,9 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.richieernest.knowledgeManagementSystem.dto.token.JwtResponse;
+import ru.richieernest.knowledgeManagementSystem.dto.token.RefreshTokenRequest;
 import ru.richieernest.knowledgeManagementSystem.entity.Employee;
+import ru.richieernest.knowledgeManagementSystem.entity.RefreshToken;
 import ru.richieernest.knowledgeManagementSystem.entity.Role;
 import ru.richieernest.knowledgeManagementSystem.repository.EmployeeRepo;
+import ru.richieernest.knowledgeManagementSystem.service.Auth.JwtService;
+import ru.richieernest.knowledgeManagementSystem.service.Auth.RefreshTokenService;
 import ru.richieernest.knowledgeManagementSystem.service.UserService;
 
 import java.util.Collections;
@@ -20,6 +25,8 @@ public class UserController {
     private final UserService userService;
     private final EmployeeRepo employeeRepo;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
     @PostMapping("/forgetPassword")
     public void forgetPassword(@RequestBody String password){
         System.out.println(password);
@@ -34,5 +41,19 @@ public class UserController {
                 .roles(Collections.singleton(Role.ADMIN))
                 .build();
         employeeRepo.save(employee);
+    }
+    @PostMapping("/refreshToken")
+    public JwtResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        return refreshTokenService.findByToken(refreshTokenRequest.getToken())
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getEmployee)
+                .map(employee -> {
+                    String accessToken = jwtService.generateToken(employee.getUsername());
+                    return JwtResponse.builder()
+                            .accessToken(accessToken)
+                            .token(refreshTokenRequest.getToken())
+                            .build();
+                }).orElseThrow(() -> new RuntimeException(
+                        "Refresh token is not in database!"));
     }
 }

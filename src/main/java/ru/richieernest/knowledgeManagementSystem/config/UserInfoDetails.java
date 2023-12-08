@@ -1,4 +1,4 @@
-package ru.richieernest.knowledgeManagementSystem.service.Detail;
+package ru.richieernest.knowledgeManagementSystem.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
