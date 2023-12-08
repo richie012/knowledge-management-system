@@ -43,7 +43,7 @@ public class JwtService {
                 .getBody();
     }
 
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -53,17 +53,17 @@ public class JwtService {
     }
 
 
-    public String generateToken(String username){
+    public String generateToken(String username,int time){
         Map<String,Object> claims=new HashMap<>();
-        return createToken(claims,username);
+        return createToken(claims,username,time);
     }
 
-    private String createToken(Map<String, Object> claims, String username) {
+    private String createToken(Map<String, Object> claims, String username, int time) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*2))
+                .setExpiration(new Date(System.currentTimeMillis()+time))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 

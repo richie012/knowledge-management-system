@@ -48,7 +48,7 @@ public class AuthController {
         if (authentication.isAuthenticated()) {
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getUsername());
             return JwtResponse.builder()
-                    .accessToken(jwtService.generateToken(user.getUsername()))
+                    .accessToken(jwtService.generateToken(user.getUsername(), 120000))
                     .token(refreshToken.getToken()).build();
         } else {
             throw new UsernameNotFoundException("invalid user request !");

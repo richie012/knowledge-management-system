@@ -22,6 +22,8 @@ public class Employee {
 
     private String password;
 
+    private String email;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_username"))
