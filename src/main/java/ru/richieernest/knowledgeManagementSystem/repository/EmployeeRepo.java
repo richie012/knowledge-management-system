@@ -19,6 +19,6 @@ public interface EmployeeRepo extends JpaRepository<Employee, Long> {
     List<String> getEmployees();
 
     @Modifying
-    @Query(value = "UPDATE employee SET password = ?1 WHERE username = ?2", nativeQuery = true)
-    void updatePass(String pass, String name);
+    @Query(value = "UPDATE employee SET password = ?1 WHERE email = ?2", nativeQuery = true)
+    void updatePass(String pass, String email);
 }

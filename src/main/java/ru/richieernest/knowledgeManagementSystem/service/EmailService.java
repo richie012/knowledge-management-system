@@ -4,10 +4,12 @@ import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.richieernest.knowledgeManagementSystem.service.Auth.JwtService;
 
 import java.util.Properties;
 
+@Service
 @RequiredArgsConstructor
 public class EmailService {
 
@@ -33,7 +35,7 @@ public class EmailService {
         session.setDebug(true);
         try {
             MimeMessage message = new MimeMessage(session);
-            String token = jwtService.generateToken("",300000);
+            String token = jwtService.generateToken(email,300000);
             message.setFrom(new InternetAddress(from));
             message.addRecipients(Message.RecipientType.TO, to);
             message.setSubject("Замена пароля");

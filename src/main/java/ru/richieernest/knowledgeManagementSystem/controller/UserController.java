@@ -21,33 +21,10 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
     private final EmployeeRepo employeeRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final EmailService emailService;
     private final RefreshTokenService refreshTokenService;
-    @PostMapping("/forgetPassword")
-    public void forgetPassword(@RequestBody String email){
-        emailService.sendEmailMessage(email);
-    }
-
-    @GetMapping("/forgetPassword/{id}")
-    public void changePasswordToken(@PathVariable String id){
-        if (!jwtService.isTokenExpired(id)){
-            System.out.println("Переход на POST");
-        }
-        else{
-            throw new RuntimeException("Срок ссылки истёк!");
-        }
-    }
-    @PostMapping("/forgetPassword/{id}")
-    public void changePassword(@PathVariable String id, @RequestBody DoublePassword doublePassword){
-        if (doublePassword.getPassword().compareTo(doublePassword.getRepeatPassword()) == 0){
-            userService.changePass(doublePassword.getPassword());
-        }
-    }
-
 
     @GetMapping("/admin")
     public void admin(){
@@ -55,6 +32,7 @@ public class UserController {
                 .username("admin")
                 .password(passwordEncoder.encode("admin"))
                 .roles(Collections.singleton(Role.ADMIN))
+                .email("ernest.ibatov@mail.ru")
                 .build();
         employeeRepo.save(employee);
     }
