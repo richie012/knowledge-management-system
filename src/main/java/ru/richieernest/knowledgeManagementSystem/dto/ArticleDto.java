@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.richieernest.knowledgeManagementSystem.entity.Article;
 
 import java.util.List;
 
@@ -19,9 +18,10 @@ public class ArticleDto {
     private Long id;
     private String title;
     private String author;
+    //TODO убрать метку времени
     private String createdAt;
     private String content;
     private Long articleParentId;
 
-    private List<ArticleIdAndTitle> childArticles;
+    private List<ArticleLink> childArticles;
 }

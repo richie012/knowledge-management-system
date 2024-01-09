@@ -1,15 +1,19 @@
 package ru.richieernest.knowledgeManagementSystem.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Data
-@Component
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleIdAndTitle {
+@Builder
+public class ArticleNode {
+    private ArticleDto articleDto;
     private Long id;
     private String title;
+    private List<ArticleLink> childsArticle;
 }
