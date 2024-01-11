@@ -12,7 +12,11 @@ import java.util.List;
 public interface HistoryRepo extends JpaRepository<HistoryArticle, Long> {
 
     @Modifying
-    @Query(value = "SELECT * FROM HistoryArticle WHERE id_content = ?1",nativeQuery = true)
+    @Query(value = "SELECT content FROM history_article WHERE content = ?1",nativeQuery = true)
+    List<String> findAllByContent(String content);
+
+    @Modifying
+    @Query(value = "SELECT * FROM history_article WHERE id_content = ?1",nativeQuery = true)
     List<HistoryArticle> findAllByIdContent(Long id);
 
 }
