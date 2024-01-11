@@ -28,8 +28,8 @@ public class HistoryService {
         }
     }
 
-    public HistoryArticle updateArticle(TextDto textDto){
-        return new HistoryArticle();
+    public void updateArticle(TextDto textDto){
+        articleRepo.updateContent(textDto.getId_content());
     }
 
     public HistoryArticle saveVersion(TextDto textDto){

@@ -29,7 +29,8 @@ public class HistoryController {
 
     @PutMapping("/")
     public ResponseEntity<HistoryArticle> update(@RequestBody TextDto textDto){
-        return new ResponseEntity<>(historyService.updateArticle(textDto), HttpStatus.OK);
+        historyService.updateArticle(textDto);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/")
