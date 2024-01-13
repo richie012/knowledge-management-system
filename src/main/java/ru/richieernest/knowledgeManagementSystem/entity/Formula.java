@@ -2,33 +2,25 @@ package ru.richieernest.knowledgeManagementSystem.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.Type;
-
-import java.util.List;
-import java.util.Map;
 
 @Entity
-@Table(name = "metric")
+@Table(name = "formula")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-public class Metric {
+public class Formula {
     @Id
     private Long id;
 
-    private String name;
-
-    private Long value;
+    private String title;
 
     private String formula;
-    //TODO прописать джоин
-    @OneToMany
-    private List<Metric> children;
+
+    private Double result;
 
 }

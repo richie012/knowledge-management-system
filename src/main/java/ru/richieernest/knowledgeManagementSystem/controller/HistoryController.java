@@ -33,9 +33,9 @@ public class HistoryController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<Void> deleteArticleById(@RequestBody TextDto textDto){
-        historyService.delete(textDto);
-        return ResponseEntity.ok().build();
-    }
+//    @DeleteMapping("/")
+//    public ResponseEntity<Void> deleteArticleById(@RequestBody TextDto textDto){
+//
+//        return ResponseEntity.ok().build();
+//    }
 }

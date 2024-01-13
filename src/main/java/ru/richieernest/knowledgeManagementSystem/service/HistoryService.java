@@ -27,7 +27,11 @@ public class HistoryService {
             historyRepo.deleteById(textDto.getId());
         }
     }
+    //TODO эрнест сделай плиз
+    //метод для удаления всех версий статьи
+    public void deleteAll(Long articleId){
 
+    }
     public void updateArticle(TextDto textDto){
         articleRepo.updateContent(textDto.getId_content());
     }

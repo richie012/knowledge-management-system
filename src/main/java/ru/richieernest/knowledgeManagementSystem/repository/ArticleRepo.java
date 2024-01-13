@@ -25,7 +25,6 @@ public interface ArticleRepo extends JpaRepository<Article, Long> {
     @Query(value = "UPDATE content FROM Article WHERE id = ?1", nativeQuery = true)
     void updateContent(Long id);
 
-
-
+    List<Article> findByArticleParentId(Long articleParentId);
 
 }

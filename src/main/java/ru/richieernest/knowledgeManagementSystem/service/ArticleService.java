@@ -1,17 +1,15 @@
 package ru.richieernest.knowledgeManagementSystem.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.richieernest.knowledgeManagementSystem.dto.ArticleDto;
-import ru.richieernest.knowledgeManagementSystem.dto.ArticleNode;
+import ru.richieernest.knowledgeManagementSystem.dto.*;
 import ru.richieernest.knowledgeManagementSystem.entity.Article;
 import ru.richieernest.knowledgeManagementSystem.mapper.ArticleMapper;
-import ru.richieernest.knowledgeManagementSystem.dto.ArticleLink;
 import ru.richieernest.knowledgeManagementSystem.repository.ArticleRepo;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -27,75 +25,31 @@ public class ArticleService {
         return loadAll();
     }
 
-    public List<ArticleNode> getArticlesTree(Long id) {
-        ArticleDto articleDto = getById(id);
-        Long parentId = articleDto.getArticleParentId();
-        ArrayDeque<ArticleDto> articleBranch = new ArrayDeque<>();
-        ArrayDeque<ArticleDto> articleDeque = recursiveCreateTree(parentId, articleBranch);
-        List<ArticleNode> articleNodes = articleRepo.findAllRootArticles()
-                .stream()
-                .map(article -> {
-                    ArticleNode articleNode = new ArticleNode();
-                    articleNode.setId(article.getId());
-                    articleNode.setTitle(article.getTitle());
-                    articleNode.setChildsArticle(articleMapper.addingChildArticlesToArticle(article).getChildArticles());
-                    return articleNode;
-                })
+
+    public List<ArticleBranchDto> getArticleBranches(Long id) {
+        // Получаем id корневой статьи
+        Long rootId = findRootArticleId(id);
+
+        // Строим ветку статей от корневой статьи до статьи с указанным id
+        ArticleBranchDto targetBranch = buildArticleBranchDownwards(rootId, id);
+
+        // Получаем список всех корневых статей
+        List<ArticleBranchDto> rootArticles = articleRepo.findAllRootArticles().stream()
+                .map(rootArticle -> buildArticleBranchDownwards(rootArticle.getId(), rootArticle.getId()))
                 .collect(Collectors.toList());
 
-        Map<Long, ArticleNode> map = new HashMap<>();
-        for (ArticleNode node : articleNodes) {
-            map.put(node.getId(), node);
+        // Находим индекс статьи с тем же id, что и у targetBranch.article.getId() в списке rootArticles
+        int index = IntStream.range(0, rootArticles.size())
+                .filter(i -> rootArticles.get(i).getArticle().getId().equals(targetBranch.getArticle().getId()))
+                .findFirst()
+                .orElse(-1); // возвращает -1, если такой статьи нет
+
+        // Если статья найдена, заменяем ее на targetBranch
+        if (index != -1) {
+            rootArticles.set(index, targetBranch);
         }
 
-        for (ArticleNode node : articleNodes) {
-            addChildrenToNode(node, articleDeque, map, articleDto.getId());
-        }
-
-        return articleNodes;
-    }
-    private void addChildrenToNode(ArticleNode node, ArrayDeque<ArticleDto> deque, Map<Long, ArticleNode> map, Long lastArticleId) {
-        while (!deque.isEmpty()) {
-            ArticleDto dto = deque.pop();
-            if (dto.getArticleParentId().equals(node.getId())) {
-                ArticleLink link = new ArticleLink(dto.getId(), dto.getTitle());
-                node.getChildsArticle().add(link);
-                ArticleNode childNode = ArticleNode.builder()
-                        .id(dto.getId())
-                        .title(dto.getTitle())
-                        .childsArticle(new ArrayList<>())
-                        .build();
-                if (dto.getId().equals(lastArticleId)) {
-                    childNode.setArticleDto(dto);
-                }
-                map.put(childNode.getId(), childNode);
-                addChildrenToNode(childNode, deque, map, lastArticleId);
-            }
-        }
-    }
-
-    //TODO RENAME
-    private ArrayDeque<ArticleDto> recursiveCreateTree(Long id, ArrayDeque<ArticleDto> articles) {
-        ArticleDto articleDto = getById(id);
-        if (articleDto.getArticleParentId() == null) {
-            return articles;
-        }
-        articles.addFirst(articleDto);
-        return recursiveCreateTree(articleDto.getArticleParentId(), articles);
-    }
-
-
-    //method for getting an article with a list of child articles
-    public ArticleDto getById(Long id) {
-        Optional<Article> optionalArticle = articleRepo.findById(id);
-        if (optionalArticle.isPresent()) {
-            Article article = optionalArticle.get();
-            ArticleDto articleDto = articleMapper.addingChildArticlesToArticle(article);
-
-            return articleDto;
-        } else {
-            return new ArticleDto();
-        }
+        return rootArticles;
     }
 
     //method for getting the id and title of the main articles
@@ -115,7 +69,8 @@ public class ArticleService {
         return articleRepo.save(article);
     }
 
-    public List<Article> addListOfArticle(List<Article> articles) {
+    public List<Article> addArticles(List<ArticlePostRequestDto> newArticles) {
+        List<Article> articles = newArticles.stream().map(articleMapper::toArticle).collect(Collectors.toList());
         return articleRepo.saveAll(articles);
     }
 
@@ -125,5 +80,33 @@ public class ArticleService {
 
     public void deleteById(Long id) {
         articleRepo.deleteById(id);
+    }
+    private ArticleBranchDto buildArticleBranchDownwards(Long rootId, Long targetId) {
+        Article rootArticle = articleRepo.findById(rootId)
+                .orElseThrow(() -> new RuntimeException("Article not found with id: " + rootId));
+
+        ArticleBranchDto branchDto = new ArticleBranchDto();
+        branchDto.setArticle(rootArticle);
+
+        if (!rootId.equals(targetId)) {
+            List<ArticleBranchDto> childBranches = articleRepo.findByArticleParentId(rootId).stream()
+                    .map(childArticle -> buildArticleBranchDownwards(childArticle.getId(), targetId))
+                    .collect(Collectors.toList());
+            branchDto.setChildArticles(childBranches);
+        }
+
+        return branchDto;
+    }
+    private Long findRootArticleId(Long id) {
+        Article article = articleRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found with id: " + id));
+
+        if (article.getArticleParentId() == null) {
+            // Если у статьи нет родительской статьи, значит она является корневой
+            return article.getId();
+        } else {
+            // Если у статьи есть родительская статья, рекурсивно вызываем метод для родительской статьи
+            return findRootArticleId(article.getArticleParentId());
+        }
     }
 }
