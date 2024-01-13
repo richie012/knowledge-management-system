@@ -18,5 +18,4 @@ public class FormulaDependenciesMap {
     private Long id;
     private Long parentId;
     private Long childId;
-
 }

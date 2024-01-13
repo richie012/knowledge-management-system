@@ -10,7 +10,8 @@ import ru.richieernest.knowledgeManagementSystem.entity.Article;
 import ru.richieernest.knowledgeManagementSystem.service.ArticleService;
 import ru.richieernest.knowledgeManagementSystem.service.HistoryService;
 
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -24,9 +25,9 @@ public class ArticleController {
         List<ArticleLink> articles = articleService.getAllRootArticleLinks();
         return new ResponseEntity<>(articles, HttpStatus.OK);
     }
-    //TODO RENAME BLYAT and give new path
+    //TODO RENAME BLYAT upload a branch before the article on idi
     @GetMapping("/{id}")
-    public ResponseEntity<List<ArticleBranchDto>> loadArticlesAndParentById(@PathVariable Long id){
+    public ResponseEntity<List<ArticleBranchDto>> load(@PathVariable Long id){
         return new ResponseEntity<>(articleService.getArticleBranches(id), HttpStatus.OK);
     }
     //TODO контроллер для добавления массива статей
@@ -42,7 +43,7 @@ public class ArticleController {
         Article article = Article.builder()
                 .title(articlePostRequestDto.getTitle())
                 .author(articlePostRequestDto.getAuthor())
-                .createdAt(LocalDateTime.now().toString())
+                .createdAt(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'").format(new Date()).toString())
                 .content(articlePostRequestDto.getContent())
                 .articleParentId(articlePostRequestDto.getArticleParentId())
                 .build();
