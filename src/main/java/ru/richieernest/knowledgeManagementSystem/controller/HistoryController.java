@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.richieernest.knowledgeManagementSystem.dto.TextDto;
+import ru.richieernest.knowledgeManagementSystem.dto.historyDto.EditDto;
+import ru.richieernest.knowledgeManagementSystem.dto.historyDto.TextDto;
+import ru.richieernest.knowledgeManagementSystem.dto.historyDto.UpdateVersionDto;
 import ru.richieernest.knowledgeManagementSystem.entity.HistoryArticle;
 import ru.richieernest.knowledgeManagementSystem.service.HistoryService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("history")
@@ -17,19 +17,26 @@ public class HistoryController {
 
     private final HistoryService historyService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<HistoryArticle>> view(@RequestBody TextDto textDto){
-        return new ResponseEntity<>(historyService.viewAll(textDto), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<EditDto> view(@PathVariable Long id){
+        return new ResponseEntity<>(historyService.viewAll(id), HttpStatus.OK);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<HistoryArticle> save(@RequestBody TextDto textDto){
-        return new ResponseEntity<>(historyService.saveVersion(textDto), HttpStatus.OK);
+    @GetMapping("/{id_article}/{id_version}")
+    public ResponseEntity<TextDto> oldVersion(@PathVariable Long id_article, @PathVariable Long id_version){
+        return new ResponseEntity<>(historyService.findVersion(id_version), HttpStatus.OK);
     }
 
-    @PutMapping("/")
-    public ResponseEntity<HistoryArticle> update(@RequestBody TextDto textDto){
-        historyService.updateArticle(textDto);
+    @PostMapping("/{id}")
+    public ResponseEntity<Void> save(@RequestBody UpdateVersionDto updateVersionDto){
+        historyService.saveVersion(updateVersionDto);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HistoryArticle> delete(@PathVariable Long id, @RequestBody Long id_version){
+        historyService.delete(id_version);
         return ResponseEntity.ok().build();
     }
 }

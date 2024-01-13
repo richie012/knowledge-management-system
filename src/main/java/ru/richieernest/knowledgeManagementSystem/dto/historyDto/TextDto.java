@@ -1,15 +1,15 @@
-package ru.richieernest.knowledgeManagementSystem.dto;
+package ru.richieernest.knowledgeManagementSystem.dto.historyDto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class TextDto {
-
-    private Long id;
-    private Long id_content;
-    private String text;
+    private String title;
+    private String content;
 }

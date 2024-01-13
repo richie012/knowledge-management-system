@@ -18,7 +18,8 @@ public class HistoryArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long id_content;
+    private Long id_article;
+    private String title;
     private String content;
-    private Date createdAt;
+    private String createdAt;
 }
