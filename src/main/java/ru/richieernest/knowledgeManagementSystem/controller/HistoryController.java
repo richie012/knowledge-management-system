@@ -32,10 +32,4 @@ public class HistoryController {
         historyService.updateArticle(textDto);
         return ResponseEntity.ok().build();
     }
-
-//    @DeleteMapping("/")
-//    public ResponseEntity<Void> deleteArticleById(@RequestBody TextDto textDto){
-//
-//        return ResponseEntity.ok().build();
-//    }
 }

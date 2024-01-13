@@ -19,4 +19,7 @@ public interface HistoryRepo extends JpaRepository<HistoryArticle, Long> {
     @Query(value = "SELECT * FROM history_article WHERE id_content = ?1",nativeQuery = true)
     List<HistoryArticle> findAllByIdContent(Long id);
 
+    @Modifying
+    @Query(value = "DELETE FROM history_article WHERE id_content = ?1",nativeQuery = true)
+    void deleleAllById(Long id);
 }

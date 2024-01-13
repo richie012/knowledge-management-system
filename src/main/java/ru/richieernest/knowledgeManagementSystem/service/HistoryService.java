@@ -1,5 +1,6 @@
 package ru.richieernest.knowledgeManagementSystem.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.richieernest.knowledgeManagementSystem.dto.TextDto;
@@ -27,13 +28,12 @@ public class HistoryService {
             historyRepo.deleteById(textDto.getId());
         }
     }
-    //TODO эрнест сделай плиз
-    //метод для удаления всех версий статьи
+    @Transactional
     public void deleteAll(Long articleId){
-
+        historyRepo.deleleAllById(articleId);
     }
     public void updateArticle(TextDto textDto){
-        articleRepo.updateContent(textDto.getId_content());
+        articleRepo.updateContent(textDto.getText(), textDto.getId_content());
     }
 
     public HistoryArticle saveVersion(TextDto textDto){
