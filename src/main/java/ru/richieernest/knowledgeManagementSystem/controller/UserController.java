@@ -42,7 +42,7 @@ public class UserController {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getEmployee)
                 .map(employee -> {
-                    String accessToken = jwtService.generateToken(employee.getUsername(),120000);
+                    String accessToken = jwtService.generateToken(employee.getUsername(),60000);
                     return JwtResponse.builder()
                             .accessToken(accessToken)
                             .token(refreshTokenRequest.getToken())
