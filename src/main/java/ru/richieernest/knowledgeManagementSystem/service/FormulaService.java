@@ -29,13 +29,24 @@ public class FormulaService {
         return new ArrayList<>();
     }
     //добавление одного, логика расчета формулы
-    public FormulaDto addFormula(Formula formula){
+    public FormulaDto addFormula(FormulaDto formulaDto){
+
         return new FormulaDto();
     }
-
+//const one = {
+//        id: 3,
+//                title: 'Einstein theory',
+//                formula: 'E=mc^2',
+//                result: 400, // 100 * 2^2
+//                dependencies: {
+//            'm': 1,
+//                    'c': 2
+//        }
+//    }
     //удаление одного
-    public void deleteFormula(Long id){
+    public boolean deleteFormula(Long id){
         //запретить удалять формулу если от нее зависят другие
+        return true;
     }
 
     //апдейт одного, логика обновления всех зависимых формул
@@ -44,9 +55,14 @@ public class FormulaService {
     }
 
     //приватный добавление зависимости к формуле
+    private void addDependency(Long parentId, Long childId){
 
+    }
 
     //приватный метод расчета формулы
+    private Double calculateFormula(String formula){
+        return 0.0;
+    }
 
 
 }

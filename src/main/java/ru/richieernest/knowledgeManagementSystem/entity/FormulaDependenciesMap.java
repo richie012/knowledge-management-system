@@ -1,9 +1,7 @@
 package ru.richieernest.knowledgeManagementSystem.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "formula-dependencies-map")
@@ -15,7 +13,8 @@ import jakarta.persistence.Table;
 @ToString
 public class FormulaDependenciesMap {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long parentId;
-    private Long childId;
+    private String name;
+    private Long formulaId;
 }

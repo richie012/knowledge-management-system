@@ -7,5 +7,5 @@ import ru.richieernest.knowledgeManagementSystem.entity.FormulaDependenciesMap;
 import java.util.List;
 @Repository
 public interface FormulaDependenciesMapRepo extends JpaRepository<FormulaDependenciesMap, Long> {
-    List<FormulaDependenciesMap> findByParentId(Long parentId);
+    //List<FormulaDependenciesMap> findByParentId(Long parentId);
 }

@@ -30,7 +30,7 @@ public class ArticleController {
     public ResponseEntity<List<ArticleBranchDto>> load(@PathVariable Long id){
         return new ResponseEntity<>(articleService.getArticleBranches(id), HttpStatus.OK);
     }
-    //TODO контроллер для добавления массива статей
+
     @PostMapping("/add")
     public ResponseEntity<List<Article>> addArticles(@RequestBody List<ArticlePostRequestDto> articlePostRequestDto){
         List<Article> articles = articleService.addArticles(articlePostRequestDto);
@@ -39,7 +39,7 @@ public class ArticleController {
 
     @PostMapping("/")
     public ResponseEntity<Article> addArticle(@RequestBody ArticlePostRequestDto articlePostRequestDto){
-
+        //TODO получение автора из jwt токена
         Article article = Article.builder()
                 .title(articlePostRequestDto.getTitle())
                 .author(articlePostRequestDto.getAuthor())

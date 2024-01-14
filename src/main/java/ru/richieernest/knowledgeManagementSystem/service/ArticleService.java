@@ -9,7 +9,7 @@ import ru.richieernest.knowledgeManagementSystem.repository.ArticleRepo;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 @Service
 @RequiredArgsConstructor
@@ -17,24 +17,14 @@ public class ArticleService {
     private final ArticleRepo articleRepo;
     private final ArticleMapper articleMapper;
 
-    private List<Article> loadAll() {
-        return articleRepo.findAll();
-    }
-
-    public List<Article> getAllArticles() {
-        return loadAll();
-    }
-
-
     public List<ArticleBranchDto> getArticleBranches(Long id) {
         List<Long> pathToRoot = findPathToRoot(id);
-        Long rootId = pathToRoot.get(0); // Корневая статья находится в начале списка
 
         // Получаем список всех корневых статей
         List<Article> rootArticles = articleRepo.findAllRootArticles();
 
         // Строим ветку для каждой корневой статьи, если она присутствует в pathToRoot
-        List<ArticleBranchDto> branches = rootArticles.stream()
+        return rootArticles.stream()
                 .map(rootArticle -> {
                     if (pathToRoot.contains(rootArticle.getId())) {
                         return buildBranch(rootArticle.getId(), id, pathToRoot);
@@ -46,7 +36,6 @@ public class ArticleService {
                 })
                 .collect(Collectors.toList());
 
-        return branches;
     }
 
     //method for getting the id and title of the main articles

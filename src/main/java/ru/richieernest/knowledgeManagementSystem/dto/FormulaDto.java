@@ -19,5 +19,5 @@ public class FormulaDto {
 
     private Double result;
 
-    private Map<Long, Long> dependencies;
+    private Map<String, Long> dependencies;
 }
