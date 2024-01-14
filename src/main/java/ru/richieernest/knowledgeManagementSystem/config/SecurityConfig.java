@@ -3,6 +3,7 @@ package ru.richieernest.knowledgeManagementSystem.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.richieernest.knowledgeManagementSystem.filter.JwtAuthFilter;
-import ru.richieernest.knowledgeManagementSystem.service.Auth.AuthService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static ru.richieernest.knowledgeManagementSystem.config.MainConfig.passwordEncoder;
@@ -30,12 +30,22 @@ public class SecurityConfig {
 
 
     final JwtAuthFilter authFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/**","/registration","/refreshToken","/forgetPassword/**","/forgetPassword/","/admin","/history/**")
+                        .requestMatchers(HttpMethod.OPTIONS)
+                        .permitAll()
+                        .requestMatchers(
+                                "/auth/**",
+                                "/registration",
+                                "/refreshToken",
+                                "/forgetPassword/**",
+                                "/forgetPassword/",
+                                "/admin",
+                                "/history/**")
                         .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
@@ -54,8 +64,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
