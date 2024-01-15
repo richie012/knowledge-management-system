@@ -22,8 +22,8 @@ public class HistoryController {
         return new ResponseEntity<>(historyService.viewAll(id), HttpStatus.OK);
     }
 
-    @GetMapping("/{id_article}/{id_version}")
-    public ResponseEntity<TextDto> oldVersion(@PathVariable Long id_article, @PathVariable Long id_version){
+    @GetMapping("/versions/{id_version}")
+    public ResponseEntity<TextDto> oldVersion(@PathVariable Long id_version){
         return new ResponseEntity<>(historyService.findVersion(id_version), HttpStatus.OK);
     }
 
@@ -34,8 +34,8 @@ public class HistoryController {
     }
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HistoryArticle> delete(@PathVariable Long id, @RequestBody Long id_version){
+    @DeleteMapping("/versions/{id_version}")
+    public ResponseEntity<HistoryArticle> delete(@PathVariable Long id_version){
         historyService.delete(id_version);
         return ResponseEntity.ok().build();
     }

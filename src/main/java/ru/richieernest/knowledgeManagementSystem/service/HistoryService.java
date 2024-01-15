@@ -64,6 +64,7 @@ public class HistoryService {
                 .build();
     }
 
+    @Transactional
     public void delete(Long id_version){
         historyRepo.deleleByIdVersion(id_version);
     }
