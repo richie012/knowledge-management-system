@@ -1,7 +1,9 @@
 package ru.richieernest.knowledgeManagementSystem.service.Auth;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.richieernest.knowledgeManagementSystem.entity.Employee;
 import ru.richieernest.knowledgeManagementSystem.entity.RefreshToken;
 import ru.richieernest.knowledgeManagementSystem.repository.EmployeeRepo;
 import ru.richieernest.knowledgeManagementSystem.repository.RefreshTokenRepo;
@@ -19,13 +21,21 @@ public class RefreshTokenService {
 
     private final EmployeeRepo employeeRepo;
 
+    @Transactional
     public RefreshToken createRefreshToken(String username) {
+        Employee employee = employeeRepo.findByUsername(username).get();
         RefreshToken refreshToken = RefreshToken.builder()
-                .employee(employeeRepo.findByUsername(username).get())
+                .employee(employee)
                 .token(UUID.randomUUID().toString())
                 .expiryDate(Instant.now().plusMillis(600000))//10
                 .build();
-        return refreshTokenRepo.save(refreshToken);
+        if(refreshTokenRepo.findByEmployee(employee).isEmpty()) {
+            return refreshTokenRepo.save(refreshToken);
+        }
+        else {
+            refreshTokenRepo.updateToken(refreshToken.getToken(), refreshToken.getExpiryDate(), employee);
+            return refreshToken;
+        }
     }
 
 
