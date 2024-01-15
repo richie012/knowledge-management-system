@@ -15,6 +15,6 @@ public class FormulaDependenciesMap {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private Long formulaId;
+    private Long parentFormulaId;
+    private Long childFormulaId;
 }

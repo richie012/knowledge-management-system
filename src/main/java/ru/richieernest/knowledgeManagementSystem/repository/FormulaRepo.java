@@ -5,5 +5,6 @@ import org.springframework.stereotype.Repository;
 import ru.richieernest.knowledgeManagementSystem.entity.Formula;
 @Repository
 public interface FormulaRepo extends JpaRepository<Formula, Long> {
+    Double findResultById(Long id);
 
 }
