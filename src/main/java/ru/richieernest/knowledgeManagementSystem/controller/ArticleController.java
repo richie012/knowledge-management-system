@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.richieernest.knowledgeManagementSystem.dto.*;
+import ru.richieernest.knowledgeManagementSystem.dto.article.*;
 import ru.richieernest.knowledgeManagementSystem.entity.Article;
 import ru.richieernest.knowledgeManagementSystem.service.ArticleService;
 import ru.richieernest.knowledgeManagementSystem.service.HistoryService;
@@ -25,10 +25,13 @@ public class ArticleController {
         List<ArticleLink> articles = articleService.getAllRootArticleLinks();
         return new ResponseEntity<>(articles, HttpStatus.OK);
     }
-    //TODO RENAME BLYAT upload a branch before the article on idi
     @GetMapping("/{id}")
-    public ResponseEntity<List<ArticleBranchDto>> load(@PathVariable Long id){
-        return new ResponseEntity<>(articleService.getArticleBranches(id), HttpStatus.OK);
+    public ResponseEntity<ArticleId> load(@PathVariable Long id){
+        return new ResponseEntity<>(articleService.loadTreeAndArticle(id), HttpStatus.OK);
+    }
+    @GetMapping("/test/{id}")
+    public ResponseEntity<ArticleAndChildrenDto> childrenArticle(@PathVariable Long id){
+        return new ResponseEntity<>(articleService.getArticleChildren(id), HttpStatus.OK);
     }
 
     @PostMapping("/add")

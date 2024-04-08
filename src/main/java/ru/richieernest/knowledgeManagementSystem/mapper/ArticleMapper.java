@@ -2,15 +2,10 @@ package ru.richieernest.knowledgeManagementSystem.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.richieernest.knowledgeManagementSystem.dto.ArticleBranchDto;
-import ru.richieernest.knowledgeManagementSystem.dto.ArticleDto;
-import ru.richieernest.knowledgeManagementSystem.dto.ArticlePostRequestDto;
+import ru.richieernest.knowledgeManagementSystem.dto.article.ArticleDto;
+import ru.richieernest.knowledgeManagementSystem.dto.article.ArticlePostRequestDto;
 import ru.richieernest.knowledgeManagementSystem.entity.Article;
 import ru.richieernest.knowledgeManagementSystem.repository.ArticleRepo;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component

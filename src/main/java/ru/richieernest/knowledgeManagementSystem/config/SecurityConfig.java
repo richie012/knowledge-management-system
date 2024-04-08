@@ -45,7 +45,8 @@ public class SecurityConfig {
                                 "/forgetPassword/**",
                                 "/forgetPassword/",
                                 "/admin",
-                                "/history/**")
+                                "/history/**",
+                                "/**")
                         .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session

@@ -1,4 +1,4 @@
-package ru.richieernest.knowledgeManagementSystem.dto;
+package ru.richieernest.knowledgeManagementSystem.dto.article;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

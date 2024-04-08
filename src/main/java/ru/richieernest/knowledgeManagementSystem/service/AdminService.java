@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.richieernest.knowledgeManagementSystem.dto.User;
+import ru.richieernest.knowledgeManagementSystem.dto.UserRole;
 import ru.richieernest.knowledgeManagementSystem.entity.Employee;
 import ru.richieernest.knowledgeManagementSystem.entity.Role;
 import ru.richieernest.knowledgeManagementSystem.repository.EmployeeRepo;
@@ -35,5 +36,10 @@ public class AdminService {
                 .build();
 
         employeeRepo.save(employee);
+    }
+    @Transactional
+    public void changeUserRole(UserRole userRole){
+        System.out.println(userRole.getId() + " " + userRole.getRole());
+        employeeRepo.updateRole(userRole.getId(),userRole.getRole());
     }
 }

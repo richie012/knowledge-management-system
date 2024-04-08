@@ -2,7 +2,7 @@ package ru.richieernest.knowledgeManagementSystem.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.richieernest.knowledgeManagementSystem.dto.*;
+import ru.richieernest.knowledgeManagementSystem.dto.article.*;
 import ru.richieernest.knowledgeManagementSystem.entity.Article;
 import ru.richieernest.knowledgeManagementSystem.mapper.ArticleMapper;
 import ru.richieernest.knowledgeManagementSystem.repository.ArticleRepo;
@@ -17,11 +17,30 @@ public class ArticleService {
     private final ArticleRepo articleRepo;
     private final ArticleMapper articleMapper;
 
-    public List<ArticleBranchDto> getArticleBranches(Long id) {
+
+    public ArticleAndChildrenDto getArticleChildren(Long id){
+        ArticleAndChildrenDto AACD = ArticleAndChildrenDto.builder()
+                .childArticles(articleRepo.findByParentId(id))
+                .article(getArticleById(id))
+                .build();
+        return AACD;
+    }
+    public Article getArticleById(Long id){
+        return articleRepo.findById(id).orElseThrow(() -> new RuntimeException("Статья не найдена с id: " + id));
+    }
+
+    public ArticleId loadTreeAndArticle(Long id){
+        return ArticleId.builder()
+                .articleLinkBranchDto(getArticleBranches(id))
+                .article(getArticleById(id))
+                .build();
+    }
+
+    public List<ArticleLinkBranchDto> getArticleBranches(Long id) {
         List<Long> pathToRoot = findPathToRoot(id);
 
         // Получаем список всех корневых статей
-        List<Article> rootArticles = articleRepo.findAllRootArticles();
+        List<ArticleLink> rootArticles = articleRepo.findAllArticleLink();
 
         // Строим ветку для каждой корневой статьи, если она присутствует в pathToRoot
         return rootArticles.stream()
@@ -29,28 +48,16 @@ public class ArticleService {
                     if (pathToRoot.contains(rootArticle.getId())) {
                         return buildBranch(rootArticle.getId(), id, pathToRoot);
                     } else {
-                        ArticleBranchDto branchDto = new ArticleBranchDto();
-                        branchDto.setArticle(rootArticle);
+                        ArticleLinkBranchDto branchDto = new ArticleLinkBranchDto();
+                        branchDto.setArticleLink(rootArticle);
                         return branchDto;
                     }
                 })
                 .collect(Collectors.toList());
-
     }
 
     //method for getting the id and title of the main articles
-    public List<ArticleLink> getAllRootArticleLinks() {
-        return articleRepo.findAllRootArticles()
-                .stream()
-                .map(article -> {
-                    ArticleLink articleLink = new ArticleLink();
-                    articleLink.setId(article.getId());
-                    articleLink.setTitle(article.getTitle());
-                    return articleLink;
-                })
-                .collect(Collectors.toList());
-    }
-
+    public List<ArticleLink> getAllRootArticleLinks() { return articleRepo.findAllArticleLink(); }
     public Article addArticle(Article article) {
         return articleRepo.save(article);
     }
@@ -83,15 +90,14 @@ public class ArticleService {
         pathToRoot.add(article.getId());
         return pathToRoot;
     }
-    private ArticleBranchDto buildBranch(Long rootId, Long targetId, List<Long> pathToRoot) {
-        Article rootArticle = articleRepo.findById(rootId)
-                .orElseThrow(() -> new RuntimeException("Статья не найдена с id: " + rootId));
+    private ArticleLinkBranchDto buildBranch(Long rootId, Long targetId, List<Long> pathToRoot) {
+        ArticleLink rootArticle = articleRepo.findByIdArticleLink(rootId);
 
-        ArticleBranchDto branchDto = new ArticleBranchDto();
-        branchDto.setArticle(rootArticle);
+        ArticleLinkBranchDto branchDto = new ArticleLinkBranchDto();
+        branchDto.setArticleLink(rootArticle);
 
         if (rootId.equals(targetId) || pathToRoot.contains(rootId)) {
-            List<ArticleBranchDto> childBranches = articleRepo.findByArticleParentId(rootId).stream()
+            List<ArticleLinkBranchDto> childBranches = articleRepo.findByArticleParentId(rootId).stream()
                     .map(childArticle -> buildBranch(childArticle.getId(), targetId, pathToRoot))
                     .collect(Collectors.toList());
             branchDto.setChildArticles(childBranches);
