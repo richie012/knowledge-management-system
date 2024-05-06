@@ -10,5 +10,6 @@ spring:
       ddl-auto: update
     show-sql: 'true'
 
+
 server:
   port: '55555'
