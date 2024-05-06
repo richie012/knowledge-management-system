@@ -12,6 +12,9 @@ import java.util.List;
 
 @Repository
 public interface ArticleRepo extends JpaRepository<Article, Long> {
+
+    @Query(value = "SELECT * FROM Article ORDER BY id DESC LIMIT 1", nativeQuery = true)
+    Article lastArticle();
     @Query("SELECT a FROM Article a WHERE a.articleParentId IS NULL")
     List<Article> findAllRootArticles();
     @Query(value = "SELECT new ru.richieernest.knowledgeManagementSystem.dto.article.ArticleLink(a.id, a.title) FROM Article a WHERE a.articleParentId IS NULL")

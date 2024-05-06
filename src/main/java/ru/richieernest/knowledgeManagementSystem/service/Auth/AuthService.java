@@ -30,6 +30,10 @@ public class AuthService{
        Employee employee = Employee.builder()
               .username(user.getUsername())
                .password(passwordEncoder.encode(user.getPassword()))
+               .name(user.getName())
+               .surname(user.getSurname())
+               .middleName(user.getMiddleName())
+               .email(user.getEmail())
                .roles(Collections.singleton(Role.USER))
                .build();
 

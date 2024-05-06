@@ -22,6 +22,12 @@ public class Employee  {
 
     private String password;
 
+    private String name;
+
+    private String surname;
+
+    private String middleName;
+
     private String email;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

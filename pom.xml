@@ -101,7 +101,8 @@
 			<artifactId>jlatexmath</artifactId>
 			<version>1.0.7</version>
 		</dependency>
-    </dependencies>
+
+	</dependencies>
 
 	<build>
 		<plugins>

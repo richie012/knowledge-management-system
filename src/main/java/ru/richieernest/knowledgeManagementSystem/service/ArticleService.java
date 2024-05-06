@@ -1,7 +1,11 @@
 package ru.richieernest.knowledgeManagementSystem.service;
 
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.richieernest.knowledgeManagementSystem.dto.article.*;
 import ru.richieernest.knowledgeManagementSystem.entity.Article;
 import ru.richieernest.knowledgeManagementSystem.mapper.ArticleMapper;
@@ -58,8 +62,12 @@ public class ArticleService {
 
     //method for getting the id and title of the main articles
     public List<ArticleLink> getAllRootArticleLinks() { return articleRepo.findAllArticleLink(); }
+
     public Article addArticle(Article article) {
-        return articleRepo.save(article);
+        if(!articleRepo.lastArticle().getContent().equals(article.getContent())) {
+            return articleRepo.save(article);
+        }
+        return null;
     }
 
     public List<Article> addArticles(List<ArticlePostRequestDto> newArticles) {
