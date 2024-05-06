@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7d68943-74d4-4472-a6d5-e828e8057ace" name="Changes" comment="fix-bug" />
+    <list default="true" id="d7d68943-74d4-4472-a6d5-e828e8057ace" name="Changes" comment="docker-podnyat">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/richieernest/knowledgeManagementSystem/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/richieernest/knowledgeManagementSystem/service/ArticleService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,6 +50,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -385,7 +391,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714995299428</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="docker-podnyat">
+      <option name="closed" value="true" />
+      <created>1714995596961</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1714995596961</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -408,7 +422,8 @@
     <MESSAGE value="RefreshTokenFix" />
     <MESSAGE value="OptimizedTree+RoleControl" />
     <MESSAGE value="fix-bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix-bug" />
+    <MESSAGE value="docker-podnyat" />
+    <option name="LAST_COMMIT_MESSAGE" value="docker-podnyat" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
