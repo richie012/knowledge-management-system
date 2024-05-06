@@ -1,0 +1,26 @@
+Index: src/main/java/ru/richieernest/knowledgeManagementSystem/repository/ArticleRepo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.richieernest.knowledgeManagementSystem.repository;\r\n\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\nimport org.springframework.data.jpa.repository.Query;\r\nimport org.springframework.data.repository.query.Param;\r\nimport org.springframework.stereotype.Repository;\r\nimport ru.richieernest.knowledgeManagementSystem.dto.ArticleIdAndTitle;\r\nimport ru.richieernest.knowledgeManagementSystem.entity.Article;\r\n\r\nimport java.util.List;\r\n\r\n@Repository\r\npublic interface ArticleRepo extends JpaRepository<Article, Long> {\r\n    @Query(\"SELECT a FROM Article a WHERE a.articleParentId IS NULL\")\r\n    List<Article> findAllWithNoParent();\r\n    List<Article> findAll();\r\n    @Query(\"SELECT new ru.richieernest.knowledgeManagementSystem.dto.ArticleIdAndTitle(a.id, a.title) FROM Article a WHERE a.articleParentId = :articleParentId\")\r\n    List<ArticleIdAndTitle> findArticleIdAndTitleByArticleParentId(@Param(\"articleParentId\") Long articleParentId);\r\n\r\n\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ru/richieernest/knowledgeManagementSystem/repository/ArticleRepo.java b/src/main/java/ru/richieernest/knowledgeManagementSystem/repository/ArticleRepo.java
+--- a/src/main/java/ru/richieernest/knowledgeManagementSystem/repository/ArticleRepo.java	
++++ b/src/main/java/ru/richieernest/knowledgeManagementSystem/repository/ArticleRepo.java	
+@@ -1,6 +1,7 @@
+ package ru.richieernest.knowledgeManagementSystem.repository;
+ 
+ import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.data.jpa.repository.Modifying;
+ import org.springframework.data.jpa.repository.Query;
+ import org.springframework.data.repository.query.Param;
+ import org.springframework.stereotype.Repository;
+@@ -14,6 +15,7 @@
+     @Query("SELECT a FROM Article a WHERE a.articleParentId IS NULL")
+     List<Article> findAllWithNoParent();
+     List<Article> findAll();
++
+     @Query("SELECT new ru.richieernest.knowledgeManagementSystem.dto.ArticleIdAndTitle(a.id, a.title) FROM Article a WHERE a.articleParentId = :articleParentId")
+     List<ArticleIdAndTitle> findArticleIdAndTitleByArticleParentId(@Param("articleParentId") Long articleParentId);
+ 

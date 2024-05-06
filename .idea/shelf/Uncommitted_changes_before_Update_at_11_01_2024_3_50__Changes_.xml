@@ -1,0 +1,9 @@
+<changelist name="Uncommitted_changes_before_Update_at_11_01_2024_3_50_[Changes]" date="1704927006128" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2024_3_50_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 11.01.2024 3:50 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/ru/richieernest/knowledgeManagementSystem/config/SecurityConfig.class" />
+    <option name="AFTER_PATH" value="target/classes/ru/richieernest/knowledgeManagementSystem/config/SecurityConfig.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2024_3_50_[Changes]/SecurityConfig.class" />
+  </binary>
+</changelist>

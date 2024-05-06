@@ -1,0 +1,32 @@
+Index: src/main/java/ru/richieernest/knowledgeManagementSystem/dto/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ru/richieernest/knowledgeManagementSystem/dto/User.java b/src/main/java/ru/richieernest/knowledgeManagementSystem/dto/user/User.java
+rename from src/main/java/ru/richieernest/knowledgeManagementSystem/dto/User.java
+rename to src/main/java/ru/richieernest/knowledgeManagementSystem/dto/user/User.java
+--- a/src/main/java/ru/richieernest/knowledgeManagementSystem/dto/User.java	
++++ b/src/main/java/ru/richieernest/knowledgeManagementSystem/dto/user/User.java	
+@@ -1,4 +1,4 @@
+-package ru.richieernest.knowledgeManagementSystem.dto;
++package ru.richieernest.knowledgeManagementSystem.dto.user;
+ 
+ import lombok.Data;
+ 
+Index: src/main/java/ru/richieernest/knowledgeManagementSystem/dto/DoublePassword.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ru/richieernest/knowledgeManagementSystem/dto/DoublePassword.java b/src/main/java/ru/richieernest/knowledgeManagementSystem/dto/user/DoublePassword.java
+rename from src/main/java/ru/richieernest/knowledgeManagementSystem/dto/DoublePassword.java
+rename to src/main/java/ru/richieernest/knowledgeManagementSystem/dto/user/DoublePassword.java
+--- a/src/main/java/ru/richieernest/knowledgeManagementSystem/dto/DoublePassword.java	
++++ b/src/main/java/ru/richieernest/knowledgeManagementSystem/dto/user/DoublePassword.java	
+@@ -1,4 +1,4 @@
+-package ru.richieernest.knowledgeManagementSystem.dto;
++package ru.richieernest.knowledgeManagementSystem.dto.user;
+ 
+ import lombok.AllArgsConstructor;
+ import lombok.Data;
